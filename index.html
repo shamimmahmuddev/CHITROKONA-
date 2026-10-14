@@ -1,0 +1,723 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CHITROKONA | Custom Sticker Store</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #faf9f6;
+            color: #202020;
+        }
+
+        header {
+            background: white;
+            padding: 20px 7%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #eee;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .logo {
+            font-size: 27px;
+            font-weight: bold;
+            color: #6845e8;
+            letter-spacing: 1px;
+        }
+
+        nav {
+            display: flex;
+            gap: 25px;
+            align-items: center;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #333;
+            font-size: 14px;
+        }
+
+        nav a:hover {
+            color: #6845e8;
+        }
+
+        .cart {
+            background: #6845e8;
+            color: white;
+            border: none;
+            padding: 11px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .hero {
+            padding: 75px 7%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 35px;
+            background: #f0ebff;
+        }
+
+        .hero-content {
+            max-width: 570px;
+        }
+
+        .tag {
+            display: inline-block;
+            color: #6845e8;
+            background: white;
+            padding: 9px 15px;
+            border-radius: 30px;
+            font-size: 13px;
+            margin-bottom: 22px;
+        }
+
+        .hero h1 {
+            font-size: clamp(38px, 5vw, 62px);
+            line-height: 1.1;
+            margin-bottom: 20px;
+        }
+
+        .hero h1 span {
+            color: #6845e8;
+        }
+
+        .hero p {
+            color: #666;
+            line-height: 1.8;
+            margin-bottom: 28px;
+        }
+
+        .primary-btn {
+            background: #6845e8;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 15px 23px;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        .primary-btn:hover,
+        .cart:hover {
+            background: #5030c5;
+        }
+
+        .hero-art {
+            width: 320px;
+            min-height: 280px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            transform: rotate(-3deg);
+        }
+
+        .sticker-art {
+            background: white;
+            border: 3px solid white;
+            border-radius: 25px;
+            padding: 18px;
+            font-size: 55px;
+            box-shadow: 0 10px 25px #37206c18;
+        }
+
+        section {
+            padding: 65px 7%;
+        }
+
+        .section-heading {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .section-heading h2 {
+            font-size: 32px;
+            margin-bottom: 12px;
+        }
+
+        .section-heading p {
+            color: #777;
+        }
+
+        .categories {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+        }
+
+        .category {
+            background: white;
+            border: 1px solid #eee;
+            padding: 25px 10px;
+            text-align: center;
+            border-radius: 14px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .category:hover {
+            border-color: #6845e8;
+            transform: translateY(-4px);
+        }
+
+        .category .emoji {
+            font-size: 38px;
+            display: block;
+            margin-bottom: 12px;
+        }
+
+        .category h3 {
+            font-size: 15px;
+        }
+
+        .search-box {
+            max-width: 450px;
+            margin: 0 auto 30px;
+            display: flex;
+            gap: 8px;
+        }
+
+        .search-box input {
+            flex: 1;
+            min-width: 0;
+            padding: 13px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        .search-box button {
+            padding: 0 18px;
+            background: #6845e8;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .products {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        .product {
+            background: white;
+            border: 1px solid #eee;
+            border-radius: 14px;
+            overflow: hidden;
+            transition: 0.2s;
+        }
+
+        .product:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px #0000000d;
+        }
+
+        .product-art {
+            height: 190px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 75px;
+        }
+
+        .art-purple { background: #eee7ff; }
+        .art-yellow { background: #fff2c9; }
+        .art-pink { background: #ffe4ed; }
+        .art-blue { background: #dff2ff; }
+
+        .product-info {
+            padding: 18px;
+        }
+
+        .product-info h3 {
+            font-size: 17px;
+            margin-bottom: 8px;
+        }
+
+        .product-info p {
+            font-size: 13px;
+            color: #777;
+            margin-bottom: 14px;
+        }
+
+        .product-bottom {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+        }
+
+        .price {
+            font-size: 17px;
+            font-weight: bold;
+            color: #6845e8;
+        }
+
+        .add-btn {
+            border: 1px solid #6845e8;
+            color: #6845e8;
+            background: white;
+            border-radius: 7px;
+            padding: 9px 10px;
+            cursor: pointer;
+        }
+
+        .add-btn:hover {
+            background: #6845e8;
+            color: white;
+        }
+
+        .empty-message {
+            text-align: center;
+            color: #777;
+            padding: 25px;
+            grid-column: 1 / -1;
+        }
+
+        .custom-banner {
+            background: #252039;
+            color: white;
+            margin: 0 7% 65px;
+            border-radius: 18px;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .custom-banner h2 {
+            font-size: 29px;
+            margin-bottom: 12px;
+        }
+
+        .custom-banner p {
+            color: #d1cde0;
+            margin-bottom: 22px;
+            line-height: 1.7;
+        }
+
+        .custom-banner input {
+            display: block;
+            margin: 0 auto 15px;
+            max-width: 340px;
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: none;
+        }
+
+        footer {
+            text-align: center;
+            background: white;
+            border-top: 1px solid #eee;
+            padding: 28px 15px;
+            color: #777;
+            font-size: 13px;
+            line-height: 1.8;
+        }
+
+        footer strong {
+            color: #6845e8;
+        }
+
+        @media (max-width: 850px) {
+            header {
+                padding: 18px 5%;
+            }
+
+            nav {
+                gap: 12px;
+            }
+
+            .hero {
+                padding: 55px 5%;
+            }
+
+            .hero-art {
+                width: 240px;
+            }
+
+            .categories,
+            .products {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            section {
+                padding: 50px 5%;
+            }
+        }
+
+        @media (max-width: 560px) {
+            header {
+                flex-wrap: wrap;
+                gap: 15px;
+            }
+
+            .logo {
+                font-size: 23px;
+            }
+
+            nav {
+                width: 100%;
+                justify-content: space-between;
+            }
+
+            nav a {
+                font-size: 12px;
+            }
+
+            .hero {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .hero-art {
+                min-height: 200px;
+            }
+
+            .sticker-art {
+                font-size: 42px;
+                padding: 13px;
+            }
+
+            .section-heading h2 {
+                font-size: 27px;
+            }
+
+            .product-art {
+                height: 145px;
+                font-size: 55px;
+            }
+
+            .product-info {
+                padding: 12px;
+            }
+
+            .product-info h3 {
+                font-size: 15px;
+            }
+
+            .price {
+                font-size: 15px;
+            }
+
+            .add-btn {
+                padding: 8px;
+                font-size: 12px;
+            }
+
+            .custom-banner {
+                margin: 0 5% 45px;
+                padding: 30px 18px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header>
+        <div class="logo">CHITROKONA.</div>
+
+        <nav>
+            <a href="#home">Home</a>
+            <a href="#categories">Categories</a>
+            <a href="#shop">Shop</a>
+            <button class="cart" onclick="showCart()">
+                🛒 Cart (<span id="cart-count">0</span>)
+            </button>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <main>
+        <section class="hero" id="home">
+            <div class="hero-content">
+                <span class="tag">✨ YOUR IDEAS, YOUR STICKERS</span>
+
+                <h1>
+                    Make Your World
+                    <span>More Colorful.</span>
+                </h1>
+
+                <p>
+                    Discover unique stickers that express your personality.
+                    Find your favorites or create your own custom sticker
+                    designs with CHITROKONA.
+                </p>
+
+                <button class="primary-btn"
+                    onclick="document.getElementById('shop').scrollIntoView({behavior:'smooth'})">
+                    Explore Stickers →
+                </button>
+            </div>
+
+            <div class="hero-art" aria-label="Sticker illustrations">
+                <div class="sticker-art">🌈</div>
+                <div class="sticker-art">⭐</div>
+                <div class="sticker-art">🎨</div>
+                <div class="sticker-art">🦋</div>
+            </div>
+        </section>
+
+        <!-- Categories -->
+        <section id="categories">
+            <div class="section-heading">
+                <h2>Explore Categories</h2>
+                <p>Find stickers that match your style.</p>
+            </div>
+
+            <div class="categories">
+                <div class="category" onclick="filterProducts('Cute')">
+                    <span class="emoji">🐻</span>
+                    <h3>Cute Stickers</h3>
+                </div>
+
+                <div class="category" onclick="filterProducts('Anime')">
+                    <span class="emoji">🌸</span>
+                    <h3>Anime Stickers</h3>
+                </div>
+
+                <div class="category" onclick="filterProducts('Nature')">
+                    <span class="emoji">🌿</span>
+                    <h3>Nature Stickers</h3>
+                </div>
+
+                <div class="category" onclick="filterProducts('Aesthetic')">
+                    <span class="emoji">✨</span>
+                    <h3>Aesthetic</h3>
+                </div>
+            </div>
+        </section>
+
+        <!-- Products -->
+        <section id="shop">
+            <div class="section-heading">
+                <h2>Popular Stickers</h2>
+                <p>Small stickers, big personality.</p>
+            </div>
+
+            <div class="search-box">
+                <input
+                    type="search"
+                    id="search-input"
+                    placeholder="Search stickers..."
+                    aria-label="Search stickers"
+                >
+                <button onclick="searchProducts()">Search</button>
+            </div>
+
+            <div class="products" id="product-list">
+
+                <article class="product" data-name="Cute Bear" data-category="Cute">
+                    <div class="product-art art-purple">🐻</div>
+                    <div class="product-info">
+                        <h3>Cute Bear</h3>
+                        <p>Adorable bear sticker</p>
+                        <div class="product-bottom">
+                            <span class="price">৳80</span>
+                            <button class="add-btn"
+                                onclick="addToCart('Cute Bear', 80)">
+                                + Add
+                            </button>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="product" data-name="Anime Star" data-category="Anime">
+                    <div class="product-art art-yellow">⭐</div>
+                    <div class="product-info">
+                        <h3>Anime Star</h3>
+                        <p>Express your anime vibe</p>
+                        <div class="product-bottom">
+                            <span class="price">৳100</span>
+                            <button class="add-btn"
+                                onclick="addToCart('Anime Star', 100)">
+                                + Add
+                            </button>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="product" data-name="Nature Leaf" data-category="Nature">
+                    <div class="product-art art-blue">🌿</div>
+                    <div class="product-info">
+                        <h3>Nature Leaf</h3>
+                        <p>Inspired by nature</p>
+                        <div class="product-bottom">
+                            <span class="price">৳70</span>
+                            <button class="add-btn"
+                                onclick="addToCart('Nature Leaf', 70)">
+                                + Add
+                            </button>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="product" data-name="Dream Butterfly" data-category="Aesthetic">
+                    <div class="product-art art-pink">🦋</div>
+                    <div class="product-info">
+                        <h3>Dream Butterfly</h3>
+                        <p>Soft aesthetic design</p>
+                        <div class="product-bottom">
+                            <span class="price">৳90</span>
+                            <button class="add-btn"
+                                onclick="addToCart('Dream Butterfly', 90)">
+                                + Add
+                            </button>
+                        </div>
+                    </div>
+                </article>
+
+            </div>
+        </section>
+
+        <!-- Custom Sticker Section -->
+        <div class="custom-banner" id="custom">
+            <h2>Create Your Own Sticker</h2>
+            <p>
+                Have a creative idea? Tell us what kind of sticker
+                you want to make.
+            </p>
+
+            <form id="custom-form">
+                <input
+                    type="text"
+                    id="custom-idea"
+                    placeholder="Describe your sticker idea..."
+                    required
+                >
+                <button type="submit" class="primary-btn">
+                    Submit Your Idea →
+                </button>
+            </form>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <strong>CHITROKONA.</strong><br>
+        Your creativity, our canvas.<br>
+        © 2026 CHITROKONA. All rights reserved.
+    </footer>
+
+    <script>
+        let cart = [];
+        let activeCategory = "All";
+
+        function addToCart(name, price) {
+            cart.push({ name: name, price: price });
+
+            document.getElementById("cart-count").textContent = cart.length;
+
+            alert(name + " added to your cart!");
+        }
+
+        function showCart() {
+            if (cart.length === 0) {
+                alert("Your cart is empty!");
+                return;
+            }
+
+            let total = 0;
+            let message = "Your Cart:\n\n";
+
+            cart.forEach(function(item, index) {
+                message += (index + 1) + ". " + item.name +
+                    " - ৳" + item.price + "\n";
+                total += item.price;
+            });
+
+            message += "\nTotal: ৳" + total;
+            alert(message);
+        }
+
+        function filterProducts(category) {
+            activeCategory = category;
+            renderProducts();
+            document.getElementById("shop").scrollIntoView({
+                behavior: "smooth"
+            });
+        }
+
+        function searchProducts() {
+            renderProducts();
+        }
+
+        function renderProducts() {
+            const search = document.getElementById("search-input")
+                .value.trim().toLowerCase();
+
+            const products = document.querySelectorAll(".product");
+            let visibleCount = 0;
+
+            products.forEach(function(product) {
+                const name = product.dataset.name.toLowerCase();
+                const category = product.dataset.category;
+                const matchesSearch = name.includes(search);
+                const matchesCategory = activeCategory === "All" ||
+                    category === activeCategory;
+
+                if (matchesSearch && matchesCategory) {
+                    product.style.display = "";
+                    visibleCount++;
+                } else {
+                    product.style.display = "none";
+                }
+            });
+
+            let emptyMessage = document.getElementById("empty-message");
+
+            if (!emptyMessage) {
+                emptyMessage = document.createElement("p");
+                emptyMessage.id = "empty-message";
+                emptyMessage.className = "empty-message";
+                emptyMessage.textContent = "No stickers found.";
+                document.getElementById("product-list")
+                    .appendChild(emptyMessage);
+            }
+
+            emptyMessage.style.display = visibleCount === 0 ? "block" : "none";
+        }
+
+        document.getElementById("search-input")
+            .addEventListener("input", renderProducts);
+
+        document.getElementById("custom-form")
+            .addEventListener("submit", function(event) {
+                event.preventDefault();
+
+                const idea = document.getElementById("custom-idea")
+                    .value.trim();
+
+                if (idea) {
+                    alert(
+                        "Thanks for sharing your idea!\n\n" +
+                        "Your idea: " + idea +
+                        "\n\nThis is a demo. Your request has not been sent to a server."
+                    );
+
+                    this.reset();
+                }
+            });
+    </script>
+
+</body>
+</html>
